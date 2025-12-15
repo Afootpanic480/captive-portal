@@ -2,237 +2,460 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Sahil Network Captive Portal</title>
-  <meta name="robots" content="noindex,nofollow" />
   <style>
     :root{
       color-scheme: dark;
-      --bg:#0b1220;
-      --card:#111b33;
-      --border:rgba(255,255,255,.10);
-      --soft:rgba(255,255,255,.06);
-      --muted:rgba(255,255,255,.78);
-      --blue:#2b6cff;
-      --red:rgba(255,70,70,.18);
-      --redb:rgba(255,70,70,.35);
+      --bg0:#070A12;
+      --bg1:#0B1224;
+      --card:#0F1B33cc;
+      --border:#ffffff1a;
+      --text:#EAF0FF;
+      --muted:#A9B6D3;
+      --accent:#7C5CFF;
+      --accent2:#21D4FD;
+      --danger:#FF4D6D;
+      --ok:#35D07F;
+      --shadow: 0 18px 60px rgba(0,0,0,.45);
+      --radius: 18px;
     }
-    html,body{
-      height:100%;
+
+    *{ box-sizing:border-box; }
+    body{
       margin:0;
-      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-      background:var(--bg);
-      color:#e8eefc;
-    }
-    .wrap{
-      max-width:880px;
-      margin:40px auto;
-      padding:24px;
-      box-sizing:border-box;
-    }
-    .card{
-      background:var(--card);
-      border:1px solid var(--border);
-      border-radius:18px;
-      padding:22px;
-      box-shadow:0 10px 30px rgba(0,0,0,.35);
-    }
-    h1{ margin:0 0 6px; font-size:28px; letter-spacing:.2px; }
-    .sub{ margin:0 0 16px; color:var(--muted); line-height:1.45; }
-    .box{
-      background:var(--soft);
-      border:1px solid var(--border);
-      border-radius:14px;
-      padding:12px;
-      margin-top:12px;
-    }
-    .label{ font-size:12px; opacity:.75; margin-bottom:6px; }
-    .val{ font-size:14px; line-height:1.55; color:var(--muted); }
-    ul{ margin:8px 0 0; padding-left:18px; }
-    li{ margin:6px 0; }
-    .check{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      margin-top:14px;
-    }
-    .check input{ width:18px; height:18px; margin-top:2px; }
-    .btns{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      margin-top:14px;
-    }
-    button{
-      padding:12px 16px;
-      border-radius:12px;
-      border:0;
-      background:var(--blue);
-      color:white;
-      font-weight:700;
-      cursor:pointer;
-    }
-    button.secondary{
-      background:rgba(255,255,255,.10);
-      color:#e8eefc;
-    }
-    .error{
-      margin-top:12px;
-      background:var(--red);
-      border:1px solid var(--redb);
-      padding:10px 12px;
-      border-radius:12px;
-      color:#ffd7d7;
-      display:none;
-      line-height:1.4;
-    }
-    .small{
-      margin-top:10px;
-      font-size:12px;
-      color:rgba(255,255,255,.62);
-      line-height:1.4;
-    }
-    .overlay{
-      position:fixed;
-      inset:0;
-      background:rgba(0,0,0,.72);
+      min-height:100vh;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      color:var(--text);
+      background:
+        radial-gradient(900px 500px at 20% 10%, rgba(124,92,255,.35), transparent 60%),
+        radial-gradient(900px 500px at 80% 20%, rgba(33,212,253,.25), transparent 55%),
+        radial-gradient(900px 600px at 50% 100%, rgba(53,208,127,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
       display:flex;
       align-items:center;
       justify-content:center;
+      padding:28px;
+    }
+
+    .wrap{
+      width:min(980px, 100%);
+      display:grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap:18px;
+    }
+
+    @media (max-width: 900px){
+      .wrap{ grid-template-columns: 1fr; }
+    }
+
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+      overflow:hidden;
+    }
+
+    .head{
+      padding:22px 22px 14px 22px;
+      border-bottom:1px solid var(--border);
+      display:flex;
+      gap:12px;
+      align-items:flex-start;
+      justify-content:space-between;
+    }
+
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+
+    .logo{
+      width:44px;height:44px;
+      border-radius:14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: 0 10px 30px rgba(124,92,255,.25);
+      position:relative;
+      flex:0 0 auto;
+    }
+    .logo:after{
+      content:"";
+      position:absolute;
+      inset:10px;
+      border-radius:10px;
+      background: rgba(255,255,255,.18);
+    }
+
+    h1{
+      margin:0;
+      font-size:18px;
+      letter-spacing:.2px;
+      line-height:1.2;
+    }
+    .sub{
+      margin-top:6px;
+      color:var(--muted);
+      font-size:13px;
+      line-height:1.35;
+    }
+
+    .badge{
+      font-size:12px;
+      color:var(--muted);
+      padding:8px 10px;
+      border:1px solid var(--border);
+      border-radius:999px;
+      white-space:nowrap;
+      align-self:flex-start;
+      background: rgba(255,255,255,.04);
+    }
+
+    .body{
+      padding:18px 22px 22px 22px;
+    }
+
+    .termsBox{
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(0,0,0,.18);
+      padding:14px;
+      height: 340px;
+      overflow:auto;
+      line-height:1.5;
+      font-size:14px;
+    }
+
+    .termsBox h2{
+      margin:0 0 10px 0;
+      font-size:14px;
+      color: var(--text);
+      letter-spacing:.2px;
+    }
+    .termsBox p{
+      margin:10px 0;
+      color: var(--muted);
+    }
+
+    .rule{
+      margin:10px 0;
+      padding:10px 12px;
+      border:1px solid var(--border);
+      border-radius: 14px;
+      background: rgba(255,255,255,.04);
+    }
+    .rule b{ color: var(--text); }
+
+    .hint{
+      margin-top:12px;
+      color: var(--muted);
+      font-size:13px;
+    }
+
+    .actions{
+      margin-top:16px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      align-items:center;
+      justify-content:space-between;
+    }
+
+    .agreeRow{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      max-width: 560px;
+    }
+
+    input[type="checkbox"]{
+      margin-top:3px;
+      width:18px;height:18px;
+      accent-color: var(--accent);
+    }
+
+    .agreeText{
+      font-size:13px;
+      color: var(--muted);
+      line-height:1.35;
+    }
+
+    .btnRow{
+      display:flex;
+      gap:10px;
+      align-items:center;
+    }
+
+    button{
+      border:1px solid var(--border);
+      border-radius: 14px;
+      padding:11px 14px;
+      font-size:14px;
+      cursor:pointer;
+      background: rgba(255,255,255,.06);
+      color: var(--text);
+      transition: transform .06s ease, background .12s ease, border-color .12s ease, opacity .12s ease;
+      user-select:none;
+    }
+    button:active{ transform: translateY(1px); }
+
+    .primary{
+      border-color: rgba(124,92,255,.45);
+      background: linear-gradient(135deg, rgba(124,92,255,.95), rgba(33,212,253,.65));
+      box-shadow: 0 12px 28px rgba(124,92,255,.18);
+    }
+
+    .danger{
+      border-color: rgba(255,77,109,.45);
+      background: rgba(255,77,109,.10);
+      color: #FFD2DA;
+    }
+
+    button:disabled{
+      opacity:.45;
+      cursor:not-allowed;
+    }
+
+    .side{
       padding:22px;
-      box-sizing:border-box;
-      z-index:9999;
+    }
+
+    .side h2{
+      margin:0;
+      font-size:15px;
+      letter-spacing:.2px;
+    }
+    .side p{
+      margin:10px 0 0 0;
+      color: var(--muted);
+      font-size:13px;
+      line-height:1.45;
+    }
+
+    .status{
+      margin-top:14px;
+      border:1px solid var(--border);
+      border-radius: 14px;
+      padding:12px;
+      background: rgba(255,255,255,.04);
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+    }
+
+    .dot{
+      width:10px;height:10px;border-radius:999px;
+      margin-top:5px;
+      background: rgba(255,255,255,.25);
+      box-shadow: 0 0 0 6px rgba(255,255,255,.04);
+      flex:0 0 auto;
+    }
+    .dot.ok{ background: var(--ok); box-shadow: 0 0 0 6px rgba(53,208,127,.10); }
+    .dot.warn{ background: #FFD166; box-shadow: 0 0 0 6px rgba(255,209,102,.10); }
+
+    .status b{
+      display:block;
+      font-size:13px;
+      margin-bottom:4px;
+    }
+    .status span{
+      display:block;
+      font-size:12px;
+      color: var(--muted);
+      line-height:1.35;
+    }
+
+    .foot{
+      margin-top:16px;
+      font-size:12px;
+      color: var(--muted);
+      opacity:.9;
+    }
+    .mono{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
     }
   </style>
 </head>
+
 <body>
-
-  <div class="wrap" aria-hidden="true">
-    <div class="card">
-      <h1>Sahil Network Captive Portal</h1>
-      <p class="sub">
-        This page displays the network rules for the Sahil Network.
-        You must accept them to continue.
-      </p>
-
-      <div class="box">
-        <div class="label">Status</div>
-        <div class="val" id="statusText">Waiting for agreement.</div>
+  <main class="wrap">
+    <section class="card">
+      <div class="head">
+        <div class="brand">
+          <div class="logo" aria-hidden="true"></div>
+          <div>
+            <h1>Sahil Network Captive Portal</h1>
+            <div class="sub">Review the network rules and accept to continue.</div>
+          </div>
+        </div>
+        <div class="badge">Terms of Use</div>
       </div>
 
-      <div class="small">
-        This page is designed to require acceptance every time it is opened.
+      <div class="body">
+        <div id="terms" class="termsBox" tabindex="0" aria-label="Network rules scroll area">
+          <h2>Network Rules</h2>
+
+          <p>
+            By using this network, you agree to follow these rules and accept that access can be limited or removed if rules are not followed.
+          </p>
+
+          <div class="rule"><b>1.</b> Use the network responsibly and legally.</div>
+          <div class="rule"><b>2.</b> Do not attempt to bypass security, filters, or restrictions.</div>
+          <div class="rule"><b>3.</b> Do not scan ports, probe devices, or attempt unauthorized access.</div>
+          <div class="rule"><b>4.</b> Do not run attacks, malware, phishing, or any harmful traffic.</div>
+          <div class="rule"><b>5.</b> Do not download or share pirated content.</div>
+          <div class="rule"><b>6.</b> Do not view, download, or share pornography on this network.</div>
+          <div class="rule"><b>7.</b> Do not harass, threaten, or abuse others.</div>
+          <div class="rule"><b>8.</b> Do not use the network to host illegal services.</div>
+
+          <p>
+            Logging and monitoring may occur for security and troubleshooting purposes.
+          </p>
+
+          <p class="mono" style="opacity:.8">
+            Scroll to the bottom to enable the Accept button.
+          </p>
+
+          <div style="height:22px"></div>
+          <p style="opacity:.9"><b>End of rules</b></p>
+        </div>
+
+        <div class="hint" id="hintText">To continue, scroll to the bottom and check the box.</div>
+
+        <div class="actions">
+          <label class="agreeRow">
+            <input id="agree" type="checkbox" />
+            <span class="agreeText">
+              I have read and agree to the network rules above.
+            </span>
+          </label>
+
+          <div class="btnRow">
+            <button class="danger" id="declineBtn" type="button">Don’t Agree</button>
+            <button class="primary" id="acceptBtn" type="button" disabled>I Agree</button>
+          </div>
+        </div>
       </div>
-    </div>
-  </div>
+    </section>
 
-  <div class="overlay" id="gate" role="dialog" aria-modal="true">
-    <div class="card" style="width:min(920px,100%);">
-      <h1>Sahil Network Captive Portal</h1>
-      <p class="sub">Network Rules and Acceptable Use Policy</p>
+    <aside class="card side">
+      <h2>Access status</h2>
+      <p>This panel updates based on what you’ve completed.</p>
 
-      <div class="box">
-        <div class="label">Allowed use</div>
-        <div class="val">
-          This network may be used for normal web browsing, streaming,
-          school work, communication, and personal projects.
+      <div class="status" id="s1">
+        <div class="dot warn" id="dotScroll"></div>
+        <div>
+          <b>Step 1: Scroll the rules</b>
+          <span id="tScroll">Not completed yet.</span>
         </div>
       </div>
 
-      <div class="box">
-        <div class="label">Not allowed</div>
-        <div class="val">
-          <ul>
-            <li>Anything illegal, including piracy or sharing copyrighted files without permission.</li>
-            <li>Accessing, downloading, streaming, or distributing pornography or sexually explicit content.</li>
-            <li>Hacking, port scanning, vulnerability scanning, exploiting devices, or attempting to bypass security.</li>
-            <li>Attempting to access other devices on the network without permission, including printers, cameras, PCs, or servers.</li>
-            <li>Running disruptive services such as spamming, flooding, denial-of-service tools, or cryptocurrency mining.</li>
-            <li>Uploading, spreading, or using malware, spyware, or tools designed to damage or compromise systems.</li>
-            <li>Harassment, threats, intimidation, or targeting others using this network.</li>
-          </ul>
+      <div class="status" id="s2">
+        <div class="dot warn" id="dotCheck"></div>
+        <div>
+          <b>Step 2: Confirm agreement</b>
+          <span id="tCheck">Checkbox is not checked.</span>
         </div>
       </div>
 
-      <div class="box">
-        <div class="label">Privacy and monitoring</div>
-        <div class="val">
-          This network may log basic connection information for security and troubleshooting,
-          including device identifiers, IP addresses, timestamps, and DNS requests.
+      <div class="status" id="s3">
+        <div class="dot warn" id="dotReady"></div>
+        <div>
+          <b>Ready to continue</b>
+          <span id="tReady">Accept button is locked.</span>
         </div>
       </div>
 
-      <div class="box">
-        <div class="label">Availability and enforcement</div>
-        <div class="val">
-          Access is provided as-is. Speeds may be limited, and access may be restricted or revoked at any time
-          if these rules are violated.
-        </div>
-      </div>
-
-      <div class="check">
-        <input id="agree" type="checkbox" />
-        <label for="agree" class="val">
-          I have read, understand, and agree to follow the network rules above.
-        </label>
-      </div>
-
-      <div class="error" id="err"></div>
-
-      <div class="btns">
-        <button id="accept" type="button">Accept and continue</button>
-        <button id="decline" class="secondary" type="button">I do not agree</button>
-      </div>
-
-      <div class="small">
-        If you do not agree, please close this tab or browser.
-      </div>
-    </div>
-  </div>
+     
+    </aside>
+  </main>
 
   <script>
-    const err = document.getElementById("err");
+    const terms = document.getElementById("terms");
     const agree = document.getElementById("agree");
-    const statusText = document.getElementById("statusText");
-    const gate = document.getElementById("gate");
+    const acceptBtn = document.getElementById("acceptBtn");
+    const declineBtn = document.getElementById("declineBtn");
+    const hintText = document.getElementById("hintText");
 
-    function showErr(msg){
-      err.textContent = msg;
-      err.style.display = "block";
+    const dotScroll = document.getElementById("dotScroll");
+    const dotCheck = document.getElementById("dotCheck");
+    const dotReady = document.getElementById("dotReady");
+    const tScroll = document.getElementById("tScroll");
+    const tCheck = document.getElementById("tCheck");
+    const tReady = document.getElementById("tReady");
+
+    let scrolledToBottom = false;
+
+    function isAtBottom(el){
+      const remaining = el.scrollHeight - el.scrollTop - el.clientHeight;
+      return remaining <= 1;
     }
-    function clearErr(){
-      err.textContent = "";
-      err.style.display = "none";
-    }
 
-    function unlock(){
-      gate.style.display = "none";
-      statusText.textContent = "Agreed. Redirecting…";
-    }
-
-    document.getElementById("accept").addEventListener("click", () => {
-      clearErr();
-
-      if (!agree.checked){
-        showErr("Please confirm that you agree to the network rules.");
-        return;
+    function updateUI(){
+      if(scrolledToBottom){
+        dotScroll.className = "dot ok";
+        tScroll.textContent = "Completed.";
+      } else {
+        dotScroll.className = "dot warn";
+        tScroll.textContent = "Not completed yet.";
       }
 
-      unlock();
-      window.location.replace("https://www.google.com");
+      if(agree.checked){
+        dotCheck.className = "dot ok";
+        tCheck.textContent = "Checked.";
+      } else {
+        dotCheck.className = "dot warn";
+        tCheck.textContent = "Checkbox is not checked.";
+      }
+
+      const ready = scrolledToBottom && agree.checked;
+      acceptBtn.disabled = !ready;
+
+      if(ready){
+        dotReady.className = "dot ok";
+        tReady.textContent = "Accept is enabled.";
+        hintText.textContent = "You can accept now.";
+      } else {
+        dotReady.className = "dot warn";
+        tReady.textContent = "Accept button is locked.";
+        hintText.textContent = "To continue, scroll to the bottom and check the box.";
+      }
+    }
+
+    terms.addEventListener("scroll", () => {
+      if(isAtBottom(terms)){
+        scrolledToBottom = true;
+      }
+      updateUI();
     });
 
-    document.getElementById("decline").addEventListener("click", () => {
-      clearErr();
-      showErr("You did not agree. Please close this tab or browser.");
-      try{ window.close(); }catch{}
+    agree.addEventListener("change", updateUI);
+
+    acceptBtn.addEventListener("click", () => {
+      if(acceptBtn.disabled) return;
+      window.location.href = "https://google.com";
     });
 
-    window.addEventListener("beforeunload", (e) => {
-      e.preventDefault();
-      e.returnValue = "";
+    declineBtn.addEventListener("click", () => {
+      window.close();
+      setTimeout(() => {
+        document.body.innerHTML =
+          '<div style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:28px;font-family:system-ui;color:#EAF0FF;background:#070A12;">' +
+          '<div style="max-width:680px;border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:18px;background:rgba(255,255,255,.04)">' +
+          '<div style="font-size:16px;margin-bottom:8px">You chose not to agree.</div>' +
+          '<div style="opacity:.8;font-size:13px;line-height:1.4">This tab may not close automatically because many browsers only allow script to close tabs opened by script.</div>' +
+          '</div></div>';
+      }, 350);
     });
+
+    updateUI();
   </script>
 
+  <!-- Notes:
+       Scroll detection uses scrollHeight and scrollTop concepts described by MDN. :contentReference[oaicite:1]{index=1}
+       Redirect uses Location.href behavior described by MDN. :contentReference[oaicite:2]{index=2}
+  -->
 </body>
 </html>
