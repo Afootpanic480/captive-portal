@@ -1,1 +1,238 @@
-test
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Sahil Network Captive Portal</title>
+  <meta name="robots" content="noindex,nofollow" />
+  <style>
+    :root{
+      color-scheme: dark;
+      --bg:#0b1220;
+      --card:#111b33;
+      --border:rgba(255,255,255,.10);
+      --soft:rgba(255,255,255,.06);
+      --muted:rgba(255,255,255,.78);
+      --blue:#2b6cff;
+      --red:rgba(255,70,70,.18);
+      --redb:rgba(255,70,70,.35);
+    }
+    html,body{
+      height:100%;
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      background:var(--bg);
+      color:#e8eefc;
+    }
+    .wrap{
+      max-width:880px;
+      margin:40px auto;
+      padding:24px;
+      box-sizing:border-box;
+    }
+    .card{
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:22px;
+      box-shadow:0 10px 30px rgba(0,0,0,.35);
+    }
+    h1{ margin:0 0 6px; font-size:28px; letter-spacing:.2px; }
+    .sub{ margin:0 0 16px; color:var(--muted); line-height:1.45; }
+    .box{
+      background:var(--soft);
+      border:1px solid var(--border);
+      border-radius:14px;
+      padding:12px;
+      margin-top:12px;
+    }
+    .label{ font-size:12px; opacity:.75; margin-bottom:6px; }
+    .val{ font-size:14px; line-height:1.55; color:var(--muted); }
+    ul{ margin:8px 0 0; padding-left:18px; }
+    li{ margin:6px 0; }
+    .check{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      margin-top:14px;
+    }
+    .check input{ width:18px; height:18px; margin-top:2px; }
+    .btns{
+      display:flex;
+      gap:10px;
+      flex-wrap:wrap;
+      margin-top:14px;
+    }
+    button{
+      padding:12px 16px;
+      border-radius:12px;
+      border:0;
+      background:var(--blue);
+      color:white;
+      font-weight:700;
+      cursor:pointer;
+    }
+    button.secondary{
+      background:rgba(255,255,255,.10);
+      color:#e8eefc;
+    }
+    .error{
+      margin-top:12px;
+      background:var(--red);
+      border:1px solid var(--redb);
+      padding:10px 12px;
+      border-radius:12px;
+      color:#ffd7d7;
+      display:none;
+      line-height:1.4;
+    }
+    .small{
+      margin-top:10px;
+      font-size:12px;
+      color:rgba(255,255,255,.62);
+      line-height:1.4;
+    }
+    .overlay{
+      position:fixed;
+      inset:0;
+      background:rgba(0,0,0,.72);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:22px;
+      box-sizing:border-box;
+      z-index:9999;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="wrap" aria-hidden="true">
+    <div class="card">
+      <h1>Sahil Network Captive Portal</h1>
+      <p class="sub">
+        This page displays the network rules for the Sahil Network.
+        You must accept them to continue.
+      </p>
+
+      <div class="box">
+        <div class="label">Status</div>
+        <div class="val" id="statusText">Waiting for agreement.</div>
+      </div>
+
+      <div class="small">
+        This page is designed to require acceptance every time it is opened.
+      </div>
+    </div>
+  </div>
+
+  <div class="overlay" id="gate" role="dialog" aria-modal="true">
+    <div class="card" style="width:min(920px,100%);">
+      <h1>Sahil Network Captive Portal</h1>
+      <p class="sub">Network Rules and Acceptable Use Policy</p>
+
+      <div class="box">
+        <div class="label">Allowed use</div>
+        <div class="val">
+          This network may be used for normal web browsing, streaming,
+          school work, communication, and personal projects.
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="label">Not allowed</div>
+        <div class="val">
+          <ul>
+            <li>Anything illegal, including piracy or sharing copyrighted files without permission.</li>
+            <li>Accessing, downloading, streaming, or distributing pornography or sexually explicit content.</li>
+            <li>Hacking, port scanning, vulnerability scanning, exploiting devices, or attempting to bypass security.</li>
+            <li>Attempting to access other devices on the network without permission, including printers, cameras, PCs, or servers.</li>
+            <li>Running disruptive services such as spamming, flooding, denial-of-service tools, or cryptocurrency mining.</li>
+            <li>Uploading, spreading, or using malware, spyware, or tools designed to damage or compromise systems.</li>
+            <li>Harassment, threats, intimidation, or targeting others using this network.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="label">Privacy and monitoring</div>
+        <div class="val">
+          This network may log basic connection information for security and troubleshooting,
+          including device identifiers, IP addresses, timestamps, and DNS requests.
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="label">Availability and enforcement</div>
+        <div class="val">
+          Access is provided as-is. Speeds may be limited, and access may be restricted or revoked at any time
+          if these rules are violated.
+        </div>
+      </div>
+
+      <div class="check">
+        <input id="agree" type="checkbox" />
+        <label for="agree" class="val">
+          I have read, understand, and agree to follow the network rules above.
+        </label>
+      </div>
+
+      <div class="error" id="err"></div>
+
+      <div class="btns">
+        <button id="accept" type="button">Accept and continue</button>
+        <button id="decline" class="secondary" type="button">I do not agree</button>
+      </div>
+
+      <div class="small">
+        If you do not agree, please close this tab or browser.
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const err = document.getElementById("err");
+    const agree = document.getElementById("agree");
+    const statusText = document.getElementById("statusText");
+    const gate = document.getElementById("gate");
+
+    function showErr(msg){
+      err.textContent = msg;
+      err.style.display = "block";
+    }
+    function clearErr(){
+      err.textContent = "";
+      err.style.display = "none";
+    }
+
+    function unlock(){
+      gate.style.display = "none";
+      statusText.textContent = "Agreed. Redirecting…";
+    }
+
+    document.getElementById("accept").addEventListener("click", () => {
+      clearErr();
+
+      if (!agree.checked){
+        showErr("Please confirm that you agree to the network rules.");
+        return;
+      }
+
+      unlock();
+      window.location.replace("https://www.google.com");
+    });
+
+    document.getElementById("decline").addEventListener("click", () => {
+      clearErr();
+      showErr("You did not agree. Please close this tab or browser.");
+      try{ window.close(); }catch{}
+    });
+
+    window.addEventListener("beforeunload", (e) => {
+      e.preventDefault();
+      e.returnValue = "";
+    });
+  </script>
+
+</body>
+</html>
